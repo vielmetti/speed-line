@@ -10,26 +10,35 @@ harder to draw - when expressed in terms of graphs and transformations
 of graphs. I realize at times that this makes me come to conclusions
 that look like leaps of logic, especially when it means moving
 from one problem domain to another. "Wait, how did you get there?"
+Most of the time that leap of logic is a shift in perspective
+to see a new aspect of relationships. 
 
 For example, any build system that computes dependencies is drawing
 a graph, and then resolving those dependencies (through compiles
 or whatever) is effectively executing that graph. The more complex
 your dependencies, and the more frequently they are changing (either
 from internal or external pressure) the more effort you have to 
-put into keeping this graph tested and up to date.
+put into keeping this graph tested and up to date. When faced with
+this pressure, sometimes the only way to resolve it is to reconfigure
+the build process - leaving your original task to languish for
+a while until you sort out the adjacent problem.
 
 Caching in this context is labeling the points or edges on the graph
 in such a way that the system can say "we've done this before" and
 skip forwards through the graph rather than repeating a previous
 iteration. Caching can be really hard if you have fundamental 
 dependencies (like your compiler, or a user interface library) that are 
-in the process of simultaneous change.
+in the process of simultaneous change. Big systems can have very
+big caches, and then you start to get into adjacent problem territory
+of network storage and cache validation.
 
 It took me a bit to realize that `make` - which both draws the graph
 and executes it - might not be the only way to divide up the problem
 into parts. Make doesn't have visibility outside of the Makefile
 that it lives in. It also doesn't really know what it's going to do
-until it starts to do it.
+until it starts to do it. Big projects with disconnected Makefiles
+often don't have a way for code to realize what can be done in parallel,
+or to predict the downstream impact of a minor edit.
 
 What if the thing that made the graph didn't have to execute it?
 Then you'd have something like cmake + make, or cmake + ninja, where
