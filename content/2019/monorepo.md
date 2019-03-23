@@ -27,4 +27,13 @@ Inspired by the problems generally that people have with
 Envoy, which is built with Bazel; Bazel is not a fun piece
 of code to have to keep on top of. 
 
-* https://blog.envoyproxy.io/external-c-dependency-management-in-bazel-dd37477422f5
+In [External C++ dependency management in Bazel](https://blog.envoyproxy.io/external-c-dependency-management-in-bazel-dd37477422f5),
+Harvey Tuch writes about the issues with taking monorepo-style
+build management into the diverse world of open source software.
+
+> Envoy developers want to focus on the high value tasks they are
+engaged in, e.g. improving load balancing, not becoming build system
+experts. This is a general concern in OSS, where, unlike large
+corporate environments, there often does not exist a dedicated build
+team.
+
