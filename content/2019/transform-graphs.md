@@ -2,7 +2,6 @@
 title: "Transform Graphs"
 date: 2019-03-22T15:49:05-04:00
 issue: 3
-draft: true
 ---
 
 A lot of things become easier for me to understand - but alas,
