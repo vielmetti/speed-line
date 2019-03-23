@@ -1,3 +1,11 @@
-baseURL = "http://example.org/"
+baseURL = "http://emv-speed-line.netlify.com/"
 languageCode = "en-us"
-title = "My New Hugo Site"
+title = "Speed Line - a weblog from Edward Vielmetti"
+theme = "story"
+
+[outputs]
+  home = ["HTML", "JSON", "RSS"]
+  page = ["HTML"]
+  section = ["HTML", "RSS"]
+  taxonomy = ["HTML", "RSS"]
+  taxonomyTerm = ["HTML", "RSS"]
