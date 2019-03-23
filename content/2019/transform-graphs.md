@@ -4,40 +4,54 @@ date: 2019-03-22T15:49:05-04:00
 issue: 3
 ---
 
-A lot of things become easier for me to understand - but alas,
-harder to draw - when expressed in terms of graphs and transformations
-of graphs. I realize at times that this makes me come to conclusions
-that look like leaps of logic, especially when it means moving
-from one problem domain to another. "Wait, how did you get there?"
-Most of the time that leap of logic is a shift in perspective
-to see a new aspect of relationships. 
+A build system transforms source code into executable
+objects. It does this by constructing a graph of dependencies
+among those elements, and then by executing code to
+resolve those elements. Think of the files as the
+nodes in the graph, and the command lines to compile
+those files as the labels for the edges. This is a
+directed acyclic graph (DAG), for compiles go in one
+direction, and cycles are impossible to resolve.
 
-One place that I'm seeing graphs everywhere is in systems that
-build software. This is most evident when there's a bug that you're
-chasing that turns out to reflect a dependency on some other system
-or subsystem. One moment you're working on machine learning, and
-the very next moment you're contemplating language standards. When
-the connection is too tenuous, you wonder if you're just going down
-rabbit holes! At scale, though, those rabbit holes start to
-interconnect, and you have a whole deep set of interrelated issues
-to tackle.
+With this graph abstraction, you can start to 
+compare build systems by how they build the graph
+of dependencies, and then how they execute operations
+on that graph. In particular, I am interested in build
+systems that operate with a very high degree of parallelism,
+and that work effectively across large codebases.
 
-For example, any build system that computes dependencies is drawing
-a graph, and then resolving those dependencies (through compiles
-or whatever) is effectively executing that graph. The more complex
-your dependencies, and the more frequently they are changing (either
-from internal or external pressure) the more effort you have to 
-put into keeping this graph tested and up to date. When faced with
-this pressure, sometimes the only way to resolve it is to reconfigure
-the build process - leaving your original task to languish for
-a while until you sort out the adjacent problem.
+If your code base is large, or if it changes rapidly,
+it can be difficult to keep this graph up to date. This
+at times creates so much pressure on the build system to 
+keep up that it pays off to divert your attention from
+the software you are working on to instead work on your
+build system.
 
-Graphs are made up of points connected by edges. In particular,
-in this context they are usually directed graphs that go from 
-input to output but not in reverse, and acyclic graphs that don't
-have loops. These directed acyclic graphs (DAGs) directly model
-the process of taking source code and headers and libraries and 
-transforming them into usable software.
+Some examples to illustrate.
+
+The oldest build system still in common use is `make`.
+`Make` uses the same program to compute dependencies
+as it does to run the build process. The net effect of
+this is to make it very expensive to run on large
+builds where very little has changed. Make spends a
+lot of time figuring out what to do, even when there's
+not much to do. 
+
+The next logical progression in build development is
+`cmake`, which splits the problem of deciding what to
+do with the task of actually doing it. Cmake generates
+Makefiles, which can be then executed with make. But
+Cmake can also generate files for other build systems,
+and notably one of thoes is `ninja`.
+
+`Ninja` is a fast build system out of Google. It was
+motivated by Google's habit of building large, complex
+pieces of software with lots of contributors and a rapid
+pace of change. Projects like Google Chrome, which has
+grown at a rapid pace, demand fast build tools just so
+developers can keep up. `ninja` answers this call by being
+extraordinarily simple and stripped down, more akin to
+assembler than to a high level language.
 
 Caching in this context is labeling the points or edges on the graph
 in such a way that the system can say "we've done this before" and
